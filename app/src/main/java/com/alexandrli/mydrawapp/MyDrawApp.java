@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -112,6 +113,10 @@ public class MyDrawApp extends View implements OnTouchListener
             points.remove(points.size() - 1);
             invalidate();
         }
+        else
+        {
+            Toast.makeText(getContext(), "Sorry, No points to Undo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void Redo()
@@ -123,6 +128,10 @@ public class MyDrawApp extends View implements OnTouchListener
             points.add(redoPoints);
             lastPoints.remove(lastPoints.size() - 1);
             invalidate();
+        }
+        else
+        {
+            Toast.makeText(getContext(), "Sorry, No points to Redo", Toast.LENGTH_SHORT).show();
         }
     }
 }
