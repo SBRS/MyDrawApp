@@ -3,4 +3,7 @@
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
     <string name="multicolor">Multicolor</string>
+    <string name="size">Size:</string>
+    <string name="clear">Clear</string>
+    <string name="eraser">Eraser</string>
 </resources>

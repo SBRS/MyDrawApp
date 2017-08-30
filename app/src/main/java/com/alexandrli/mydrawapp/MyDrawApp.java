@@ -4,22 +4,23 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 /**
  * Created by alexandrli on 25/08/17.
  */
 
-public class MyDrawApp extends View implements OnTouchListener
+public class MyDrawApp extends View implements View.OnTouchListener
 {
     private class Coordinate
     {
@@ -43,6 +44,10 @@ public class MyDrawApp extends View implements OnTouchListener
     Random random = new Random();
     private boolean isMulti;
     private int size;
+    private boolean longTouch;
+    private float initialX;
+    private float initialY;
+    private int mainColor = Color.BLACK;
 
     public void setMulti(boolean multi)
     {
@@ -73,21 +78,79 @@ public class MyDrawApp extends View implements OnTouchListener
         setOnTouchListener(this);
     }
 
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            mainColor = random.nextInt();
+            points.remove(points.size() - 1);
+            points.add(new Coordinate(initialX, initialY, mainColor, size));
+            invalidate();
+            handler.postDelayed(this, 700);
+        }
+    };
+
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent)
+    public boolean onTouch(final View view, final MotionEvent motionEvent)
     {
-        if (isMulti)
-        {
-            points.add(new Coordinate(motionEvent.getX(), motionEvent.getY(), random.nextInt(), size));
-        }
-        else
-        {
-            points.add(new Coordinate(motionEvent.getX(), motionEvent.getY(), Color.BLACK, size));
-        }
+        int pointerCount = motionEvent.getPointerCount();
 
-        invalidate();
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
 
-        return true;
+                initialX = motionEvent.getX();
+                initialY = motionEvent.getY();
+                longTouch = true;
+
+                if (!isMulti)
+                {
+                    handler.postDelayed(runnable, 500);
+                }
+
+                for (int i = 0; i<pointerCount; i++)
+                {
+                    if (isMulti)
+                    {
+                        points.add(new Coordinate(motionEvent.getX(i), motionEvent.getY(i), random.nextInt(), size));
+                    }
+                    else
+                    {
+                        points.add(new Coordinate(motionEvent.getX(i), motionEvent.getY(i), mainColor, size));
+                    }
+                }
+                invalidate();
+                return true;
+
+            case MotionEvent.ACTION_UP:
+                if(longTouch) {
+                    longTouch = false;
+                    handler.removeCallbacks(runnable);
+                }
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+                if(longTouch) {
+                    longTouch = false;
+                    handler.removeCallbacks(runnable);
+                }
+
+                for (int i = 0; i<pointerCount; i++)
+                {
+                    if (isMulti)
+                    {
+                        points.add(new Coordinate(motionEvent.getX(i), motionEvent.getY(i), random.nextInt(), size));
+                    }
+                    else
+                    {
+                        points.add(new Coordinate(motionEvent.getX(i), motionEvent.getY(i), mainColor, size));
+                    }
+                }
+                invalidate();
+
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -132,6 +195,38 @@ public class MyDrawApp extends View implements OnTouchListener
         else
         {
             Toast.makeText(getContext(), "Sorry, No points to Redo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void Clear()
+    {
+        points.clear();
+        lastPoints.clear();
+        invalidate();
+        Toast.makeText(getContext(), "Cleared", Toast.LENGTH_SHORT).show();
+    }
+
+    public void Color (int color)
+    {
+        if (color == Color.BLACK)
+        {
+            mainColor = Color.BLACK;
+        }
+        else if (color == Color.RED)
+        {
+            mainColor = Color.RED;
+        }
+        else if (color == Color.GREEN)
+        {
+            mainColor = Color.GREEN;
+        }
+        else if (color == Color.BLUE)
+        {
+            mainColor = Color.BLUE;
+        }
+        else if (color == Color.WHITE)
+        {
+            mainColor = Color.WHITE;
         }
     }
 }

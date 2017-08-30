@@ -1,5 +1,6 @@
 package com.alexandrli.mydrawapp;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         final MyDrawApp drawView = (MyDrawApp) findViewById(R.id.customView);
 
         //Switch for multicolor
-        Switch multicolor = (Switch) findViewById(R.id.swtMulti);
+        final Switch multicolor = (Switch) findViewById(R.id.swtMulti);
 
         multicolor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, sizes);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         size.setAdapter(dataAdapter);
+        size.setSelection(2);
 
         size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -87,6 +90,89 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 drawView.Redo();
+                return true;
+            }
+        });
+
+        //Button for clear
+        Button btnClear = (Button) findViewById(R.id.btnClear);
+
+        btnClear.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Clear();
+                return true;
+            }
+        });
+
+        //Button for black
+        Button btnBlack = (Button) findViewById(R.id.btnBlack);
+
+        btnBlack.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Color(Color.BLACK);
+                return true;
+            }
+        });
+
+        //Button for red
+        Button btnRed = (Button) findViewById(R.id.btnRed);
+
+        btnRed.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Color(Color.RED);
+                return true;
+            }
+        });
+
+        //Button for green
+        Button btnGreen = (Button) findViewById(R.id.btnGreen);
+
+        btnGreen.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Color(Color.GREEN);
+                return true;
+            }
+        });
+
+        //Button for blue
+        Button btnBlue = (Button) findViewById(R.id.btnBlue);
+
+        btnBlue.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Color(Color.BLUE);
+                return true;
+            }
+        });
+
+        //Button for eraser
+        Button btnEraser = (Button) findViewById(R.id.btnEraser);
+
+        btnEraser.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                drawView.Color(Color.WHITE);
+                if (multicolor.isChecked())
+                {
+                    multicolor.setChecked(false);
+                    drawView.setMulti(false);
+                }
                 return true;
             }
         });
