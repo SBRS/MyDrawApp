@@ -116,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
                 drawView.Color(Color.BLACK);
+                if (multicolor.isChecked())
+                {
+                    multicolor.setChecked(false);
+                    drawView.setMulti(false);
+                    Toast.makeText(MainActivity.this, "Multicolor switched off", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
@@ -129,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
                 drawView.Color(Color.RED);
+                if (multicolor.isChecked())
+                {
+                    multicolor.setChecked(false);
+                    drawView.setMulti(false);
+                    Toast.makeText(MainActivity.this, "Multicolor switched off", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
@@ -142,6 +154,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
                 drawView.Color(Color.GREEN);
+                if (multicolor.isChecked())
+                {
+                    multicolor.setChecked(false);
+                    drawView.setMulti(false);
+                    Toast.makeText(MainActivity.this, "Multicolor switched off", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
@@ -155,6 +173,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
                 drawView.Color(Color.BLUE);
+                if (multicolor.isChecked())
+                {
+                    multicolor.setChecked(false);
+                    drawView.setMulti(false);
+                    Toast.makeText(MainActivity.this, "Multicolor switched off", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
@@ -172,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     multicolor.setChecked(false);
                     drawView.setMulti(false);
+                    Toast.makeText(MainActivity.this, "Multicolor switched off", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
